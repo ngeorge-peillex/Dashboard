@@ -32,6 +32,18 @@ services:
     networks:
       - db
 
+  app:
+    build: ./dashboard-app/
+    image: dashboard_app:latest
+    container_name: dashboard_app
+    restart: always
+    env_file:
+      - ./dashboard-app/docker-compose.env
+    ports:
+      - "80:3000"
+    networks:
+      - app
+
 networks:
   app:
   db:
