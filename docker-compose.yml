@@ -1,0 +1,40 @@
+# docker-compose.yml
+version: '3'
+
+services:
+  prisma:
+    build: ./prisma/
+    image: dashboard_prisma:latest
+    container_name: dashboard_prisma
+    restart: always
+    env_file:
+      - ./prisma/docker-compose.env
+    ports:
+      - "8081:4000"
+    depends_on:
+      - postgres
+    networks:
+      - app
+      - db
+
+  postgres:
+    image: postgres:12-alpine
+    container_name: dashboard_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: dashboard_admin
+      POSTGRES_PASSWORD: dashboard_pass
+      POSTGRES_DB: dashboard
+    volumes:
+      - "db-data:/var/lib/postgresql/data"
+    ports:
+      - "5432:5432"
+    networks:
+      - db
+
+networks:
+  app:
+  db:
+
+volumes:
+  db-data:
