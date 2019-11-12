@@ -10,7 +10,7 @@ services:
     env_file:
       - ./prisma/docker-compose.env
     ports:
-      - "8081:4000"
+      - "8080:4000"
     depends_on:
       - postgres
     networks:
