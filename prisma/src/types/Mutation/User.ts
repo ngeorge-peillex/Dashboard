@@ -7,7 +7,6 @@ import { JWT_SECRET } from '../../utils/getUserId'
 export const signup = mutationField('signup', {
   type: 'AuthPayload',
   args: {
-    username: stringArg({ nullable: false }),
     email: stringArg({ nullable: false }),
     password: stringArg(),
     passwordConfirmation: stringArg(),
@@ -17,7 +16,6 @@ export const signup = mutationField('signup', {
   resolve: async (
     parent,
     {
-      username,
       email,
       password,
       passwordConfirmation,
@@ -35,7 +33,6 @@ export const signup = mutationField('signup', {
       const hashedPassword = await hash(password, 10)
       user = await ctx.photon.users.create({
         data: {
-          username,
           email,
           password: hashedPassword,
         },
@@ -44,7 +41,6 @@ export const signup = mutationField('signup', {
       const hashedIdToken = await hash(idToken, 10)
       user = await ctx.photon.users.create({
         data: {
-          username,
           email,
           authType,
           idToken: hashedIdToken,
