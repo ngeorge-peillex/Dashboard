@@ -15,6 +15,7 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import ListItemText from '@material-ui/core/ListItemText';
 import MailIcon from '@material-ui/icons/Mail';
 import Divider from '@material-ui/core/Divider';
+import Config from '../pages/config';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -95,7 +96,7 @@ export default function Dashboard() {
 
     const RightNavBar = () => (
         <Drawer anchor="right" open={state.right} onClose={toggleDrawer('right', false)}>
-            {sideList('right')}
+            {Config()}
         </Drawer>
     )
 
