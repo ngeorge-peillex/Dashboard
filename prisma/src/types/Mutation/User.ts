@@ -11,18 +11,12 @@ export const signup = mutationField('signup', {
     password: stringArg(),
     passwordConfirmation: stringArg(),
     authType: stringArg(),
-    idToken: stringArg(),
+    idToken: stringArg()
   },
   resolve: async (
     parent,
-    {
-      email,
-      password,
-      passwordConfirmation,
-      authType,
-      idToken,
-    },
-    ctx,
+    { email, password, passwordConfirmation, authType, idToken },
+    ctx
   ) => {
     var user
 
@@ -34,8 +28,8 @@ export const signup = mutationField('signup', {
       user = await ctx.photon.users.create({
         data: {
           email,
-          password: hashedPassword,
-        },
+          password: hashedPassword
+        }
       })
     } else {
       const hashedIdToken = await hash(idToken, 10)
@@ -43,19 +37,19 @@ export const signup = mutationField('signup', {
         data: {
           email,
           authType,
-          idToken: hashedIdToken,
-        },
+          idToken: hashedIdToken
+        }
       })
     }
 
     return {
       token: sign({ userId: user.id }, JWT_SECRET, {
-        expiresIn: 86400 * 7,
+        expiresIn: 86400 * 7
       }),
       expiresIn: 86400 * 7,
-      user,
+      user
     }
-  },
+  }
 })
 
 export const signin = mutationField('signin', {
@@ -63,13 +57,13 @@ export const signin = mutationField('signin', {
   args: {
     email: stringArg({ nullable: false }),
     password: stringArg(),
-    idToken: stringArg(),
+    idToken: stringArg()
   },
   resolve: async (parent, { email, password, idToken }, ctx) => {
     const user = await ctx.photon.users.findOne({
       where: {
-        email,
-      },
+        email
+      }
     })
     if (!user) {
       throw new Error(`No user found for email: ${email}`)
@@ -91,10 +85,10 @@ export const signin = mutationField('signin', {
 
     return {
       token: sign({ userId: user.id }, JWT_SECRET, {
-        expiresIn: 86400 * 7,
+        expiresIn: 86400 * 7
       }),
       expiresIn: 86400 * 7,
-      user,
+      user
     }
-  },
+  }
 })

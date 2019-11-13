@@ -1,4 +1,4 @@
-import apolloFetch from './apolloFetch'
+import apolloFetch from '../utils/apolloFetch'
 
 export const signIn = async credentials => {
   const query = `

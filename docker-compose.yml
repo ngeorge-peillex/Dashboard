@@ -2,7 +2,7 @@
 version: '3'
 
 services:
-  prisma:
+  server:
     build: ./prisma/
     image: dashboard_prisma:latest
     container_name: dashboard_prisma

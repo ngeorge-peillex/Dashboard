@@ -1,0 +1,98 @@
+{
+  "services": [
+    {
+      "name": "Weather",
+      "widgets": [
+        {
+          "name": "Temperature",
+          "description": "Display the current temperature in a city.",
+          "params": [
+            {
+              "name": "city",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "Humidity",
+          "description": "Display the current humidity in a city.",
+          "params": [
+            {
+              "name": "city",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "Weather",
+          "description": "Display the current weather in a city.",
+          "params": [
+            {
+              "name": "city",
+              "type": "string"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "RSS",
+      "widgets": [
+        {
+          "name": "RSS",
+          "description": "Display list of the last articles in a RSS flux.",
+          "params": [
+            {
+              "name": "city",
+              "type": "string"
+            },
+            {
+              "name": "number",
+              "type": "integer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Exchange",
+      "widgets": [
+        {
+          "name": "Exchange rate",
+          "description": "Display the exchange rate of a currency pair.",
+          "params": [
+            {
+              "name": "currency",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "Price evolution",
+          "description": "Display the evolution of a currency.",
+          "params": [
+            {
+              "name": "currency",
+              "type": "string"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Date and time",
+      "widgets": [
+        {
+          "name": "Date and time",
+          "description": "Display the current date and time in a specific city.",
+          "params": [
+            {
+              "name": "city",
+              "type": "string"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
