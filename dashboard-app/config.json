@@ -1,0 +1,25 @@
+{
+    "services": {
+        "weather": {
+            "refreshRate": 10,
+            "widgets": [
+                "temperature",
+                "humidity",
+                "weather"
+            ]
+        },
+        "rss": {
+            "refreshRate": 10,
+            "widgets": [
+                "feed"
+            ]
+        },
+        "exchange": {
+            "refreshRate": 1,
+            "widgets": [
+                "exchangeRate",
+                "priceEvolution"
+            ]
+        }
+    }
+}
