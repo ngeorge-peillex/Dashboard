@@ -3,22 +3,28 @@
         "weather": {
             "refreshRate": 10,
             "widgets": [
-                "temperature",
-                "humidity",
-                "weather"
+                "Temperature",
+                "Humidity",
+                "Weather"
             ]
         },
         "rss": {
             "refreshRate": 10,
             "widgets": [
-                "feed"
+                "RSS Feed"
             ]
         },
         "exchange": {
             "refreshRate": 1,
             "widgets": [
-                "exchangeRate",
-                "priceEvolution"
+                "Currency exchange rate",
+                "Share price evolution"
+            ]
+        },
+        "dateTime": {
+            "refreshRate": 1,
+            "widgets": [
+                "Date and time"
             ]
         }
     }

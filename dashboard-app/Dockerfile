@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:current-alpine
 
 # Create Prisma Dir
 RUN mkdir /prisma

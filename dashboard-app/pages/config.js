@@ -11,9 +11,7 @@ import IconButton from "@material-ui/core/IconButton";
 
 import AddIcon from "@material-ui/icons/Add";
 
-import Widget from "../models/Widget";
-
-const widgets = [new Widget("test1"), new Widget("test2"), new Widget("test3")];
+import widgets from "../models/Widget";
 
 const useStyles = makeStyles(theme => ({
   root: {
