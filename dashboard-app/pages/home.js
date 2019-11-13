@@ -8,14 +8,15 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import SettingsIcon from '@material-ui/icons/Settings';
 import { Drawer } from '@material-ui/core';
-import { List } from '@material-ui/core';
-import { ListItem } from '@material-ui/core';
-import { ListItemIcon } from '@material-ui/core';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import ListItemText from '@material-ui/core/ListItemText';
-import MailIcon from '@material-ui/icons/Mail';
-import Divider from '@material-ui/core/Divider';
 import Config from '../pages/config';
+import { Container } from '@material-ui/core'
+import { Grid } from '@material-ui/core'
+import { Paper } from '@material-ui/core'
+import Weather from '../components/Weather'
+import Temperature from '../components/Temperature'
+import Humidity from '../components/Humidity'
+
+const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -42,11 +43,50 @@ const useStyles = makeStyles(theme => ({
         boxShadow: theme.shadows[5],
         padding: theme.spacing(2, 4, 3),
     },
+    drawerPaper: {
+        position: 'relative',
+        whiteSpace: 'nowrap',
+        width: drawerWidth,
+        transition: theme.transitions.create('width', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+    },
+    drawerPaperClose: {
+        overflowX: 'hidden',
+        transition: theme.transitions.create('width', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+        width: theme.spacing(7),
+        [theme.breakpoints.up('sm')]: {
+            width: theme.spacing(9),
+        },
+    },
+    appBarSpacer: theme.mixins.toolbar,
+    content: {
+        flexGrow: 1,
+        height: '1000vh',
+        overflow: 'auto',
+    },
+    container: {
+        paddingTop: theme.spacing(4),
+        paddingBottom: theme.spacing(4),
+    },
+    paper: {
+        padding: theme.spacing(2),
+        display: 'flex',
+        overflow: 'auto',
+        flexDirection: 'column',
+    },
+    fixedHeight: {
+        height: 140,
+    },
 }));
 
 export default function Dashboard() {
-  const classes = useStyles();
-
+    const classes = useStyles();
+    const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
     const [state, setState] = React.useState({
         top: false,
         left: false,
@@ -61,25 +101,6 @@ export default function Dashboard() {
 
         setState({ ...state, [side]: open });
     };
-
-    const sideList = side => (
-        <div
-            className={classes.list}
-            role="presentation"
-            onClick={toggleDrawer(side, false)}
-            onKeyDown={toggleDrawer(side, false)}
-        >
-            <List>
-                {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                    <ListItem button key={text}>
-                        <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                        <ListItemText primary={text} />
-                    </ListItem>
-                ))}
-            </List>
-            <Divider />
-        </div>
-    );
 
     const NavigationBar = () => (
         <AppBar position="absolute" className={clsx(classes.appBar)}>
@@ -98,14 +119,39 @@ export default function Dashboard() {
         <Drawer anchor="right" open={state.right} onClose={toggleDrawer('right', false)}>
             {Config()}
         </Drawer>
-    )
+    );
 
     return (
         <div className={classes.root}>
             <CssBaseline />
             <NavigationBar />
-
             <RightNavBar />
+
+            <main className={classes.content}>
+                <div className={classes.appBarSpacer} />
+                <Container maxWidth="lg" className={classes.container}>
+                    <Grid container spacing={3}>
+                        {/* Weather */}
+                        <Grid item xs={12} md={6} lg={6}>
+                            <Paper >
+                                <Weather />
+                            </Paper>
+                        </Grid>
+                        {/* Weather */}
+                        <Grid item xs={12} md={6} lg={6}>
+                            <Paper >
+                                <Temperature />
+                            </Paper>
+                        </Grid>
+                        <Grid item xs={12} md={6} lg={6}>
+                            <Paper >
+                                <Humidity />
+                            </Paper>
+                        </Grid>
+                    </Grid>
+                </Container>
+            </main>
+
         </div>
     );
 }
