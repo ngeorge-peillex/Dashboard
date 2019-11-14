@@ -15,6 +15,8 @@ import { Paper } from '@material-ui/core'
 import Weather from '../components/Weather'
 import Temperature from '../components/Temperature'
 import Humidity from '../components/Humidity'
+import Calendar from '../components/Calendar'
+import Currency from '../components/Currency'
 
 const drawerWidth = 240;
 
@@ -146,6 +148,16 @@ export default function Dashboard() {
                         <Grid item xs={12} md={6} lg={6}>
                             <Paper >
                                 <Humidity />
+                            </Paper>
+                        </Grid>
+                        <Grid item xs={12} md={6} lg={6}>
+                            <Paper >
+                                <Calendar />
+                            </Paper>
+                        </Grid>
+                        <Grid item xs={12} md={6} lg={6}>
+                            <Paper >
+                                <Currency />
                             </Paper>
                         </Grid>
                     </Grid>
