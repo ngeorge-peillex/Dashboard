@@ -17,6 +17,7 @@ import Temperature from '../components/Temperature'
 import Humidity from '../components/Humidity'
 import Calendar from '../components/Calendar'
 import Currency from '../components/Currency'
+import PriceEvolution from '../components/PriceEvolution'
 
 const drawerWidth = 240;
 
@@ -157,6 +158,11 @@ export default function Dashboard() {
                         <Grid item xs={12} md={6} lg={6}>
                             <Paper >
                                 <Currency />
+                            </Paper>
+                        </Grid>
+                        <Grid item xs={12} md={6} lg={6}>
+                            <Paper >
+                                <PriceEvolution />
                             </Paper>
                         </Grid>
                     </Grid>
