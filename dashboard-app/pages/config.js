@@ -23,16 +23,15 @@ const useStyles = makeStyles(theme => ({
 const Config = () => {
   const classes = useStyles()
 
+  // Load widgets
   const [widgetStates, setWidgetStates] = React.useState([])
+  React.useEffect(() => {
+    (async () => setWidgetStates(await widgets))()
+  }, [])
 
   // Hook to force rerender the component
   const [, updateState] = React.useState()
   const forceUpdate = React.useCallback(() => updateState({}), [])
-
-  // Load widgets
-  React.useEffect(async () => {
-    setWidgetStates(await widgets)
-  }, [])
 
   // Set isVisible property of widgets to true on toggle
   const handleToggle = index => async () => {

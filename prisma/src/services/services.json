@@ -6,7 +6,7 @@
         {
           "name": "Temperature",
           "description": "Display the current temperature in a city.",
-          "requestUrl": "https://api.openweathermap.org/data/2.5/weather?q={city}&APPID={temperatureApiKey}",
+          "requestUrl": "https://api.openweathermap.org/data/2.5/weather?q={city}&APPID={OPEN_WEATHER_APIKEY}",
           "params": [
             {
               "name": "city",
@@ -17,6 +17,7 @@
         {
           "name": "Humidity",
           "description": "Display the current humidity in a city.",
+          "requestUrl": "https://api.openweathermap.org/data/2.5/weather?q={city}&APPID={OPEN_WEATHER_APIKEY}",
           "params": [
             {
               "name": "city",

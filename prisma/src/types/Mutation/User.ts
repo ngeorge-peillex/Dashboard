@@ -3,7 +3,7 @@ import { sign } from 'jsonwebtoken'
 import { mutationField, stringArg } from 'nexus'
 
 import { JWT_SECRET } from '../../utils/getUserId'
-
+import camelize from '../../utils/camelize'
 import services from '../../services'
 
 async function initWidgets(photon: any, userId: String) {
@@ -11,7 +11,7 @@ async function initWidgets(photon: any, userId: String) {
     for (let widget of service.widgets) {
       await photon.widgets.create({
         data: {
-          name: widget.name,
+          name: camelize(widget.name),
           isConnected: widget.requireAccessToken ? false : true,
           isVisible: widget.requireAccessToken ? false : true,
           owner: { connect: { id: userId } },

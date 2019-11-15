@@ -3,16 +3,8 @@ import axios from 'axios'
 import format from 'string-template'
 
 import { getUserId } from '../../utils/getUserId'
-
-import services from '../../services'
-
-function camelize(str: string) {
-  return str
-    .replace(/(?:^\w|[A-Z]|\b\w)/g, function(word, index) {
-      return index == 0 ? word.toLowerCase() : word.toUpperCase()
-    })
-    .replace(/\s+/g, '')
-}
+import camelize from '../../utils/camelize'
+import services, { Widget } from '../../services'
 
 // Generate the arguments for the widgetService resolver.
 // They will be formatted like this:
@@ -24,9 +16,9 @@ function camelize(str: string) {
 const widgetArgs = (() => {
   let widgets = {}
   // Iterate of services
-  for (let value of Object.values(services)) {
+  for (let service of Object.values(services)) {
     // Iterate over widgets in a service
-    for (let widget of value.widgets) {
+    for (let widget of service.widgets) {
       // Create an object type for each widget. Those will be used to supply request params.
       const widgetParamType = inputObjectType({
         name: camelize(widget.name),
@@ -47,31 +39,32 @@ const widgetArgs = (() => {
   return widgets
 })()
 
-export const widgetService = queryField('widgetService', {
-  type: 'Widget',
+export const fetchWidgetData = queryField('fetchWidgetData', {
+  type: 'WidgetData',
   args: widgetArgs,
   resolve: async (parent, args, ctx) => {
-    const userId = getUserId(ctx)
-
-    let responses = []
     for (let [key, value] of Object.entries(args)) {
       if (!value) continue
-      let widget = await ctx.photon.widgets.findMany({
-        where: {
-          name: key,
-          owner: { id: userId },
-        },
-      })
-      console.log(widget)
-      if (!widget || !widget[0]) continue
-      widget = widget[0]
-      console.log(widget)
+
+      let widget: Widget | undefined = (() => {
+        for (let service of Object.values(services)) {
+          for (let widget of service.widgets) {
+            if (camelize(widget.name) == key) return widget
+          }
+        }
+      })()
+      if (!widget) continue
+
       let requestUrl: string = format(widget.requestUrl, {
         ...value,
         ...process.env,
       })
-      responses.push({ ...widget, data: await axios.get(requestUrl) })
+
+      let res = await axios.get(requestUrl, { responseType: 'text' })
+      if (res) {
+        return { data: JSON.stringify(res.data) }
+      }
     }
-    return responses
+    return {}
   },
 })

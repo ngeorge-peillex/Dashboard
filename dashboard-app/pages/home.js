@@ -8,8 +8,10 @@ import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import SettingsIcon from '@material-ui/icons/Settings'
 import { Drawer, Container, Grid, Paper } from '@material-ui/core'
-import Config from '../pages/config'
 
+import widgets from '../models/Widget'
+
+import Config from '../pages/config'
 import Weather from '../components/Weather'
 import Temperature from '../components/Temperature'
 import Humidity from '../components/Humidity'
@@ -87,6 +89,13 @@ const useStyles = makeStyles(theme => ({
 export default function Dashboard () {
   const classes = useStyles()
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight)
+
+  // Load widgets
+  const [widgetStates, setWidgetStates] = React.useState([])
+  React.useEffect(() => {
+    (async () => setWidgetStates(await widgets))()
+  }, [])
+
   const [state, setState] = React.useState({
     top: false,
     left: false,
@@ -144,38 +153,32 @@ export default function Dashboard () {
         <div className={classes.appBarSpacer} />
         <Container maxWidth='lg' className={classes.container}>
           <Grid container spacing={3}>
-            {/* Weather */}
-            <Grid item xs={12} md={6} lg={6}>
-              <Paper>
-                <Weather />
-              </Paper>
-            </Grid>
-            {/* Weather */}
-            <Grid item xs={12} md={6} lg={6}>
-              <Paper>
-                <Temperature />
-              </Paper>
-            </Grid>
-            <Grid item xs={12} md={6} lg={6}>
-              <Paper>
-                <Humidity />
-              </Paper>
-            </Grid>
-            <Grid item xs={12} md={6} lg={6}>
-              <Paper>
-                <Calendar />
-              </Paper>
-            </Grid>
-            <Grid item xs={12} md={6} lg={6}>
-              <Paper>
-                <Currency />
-              </Paper>
-            </Grid>
-            <Grid item xs={12} md={6} lg={6}>
-              <Paper>
-                <PriceEvolution />
-              </Paper>
-            </Grid>
+            {widgetStates.map(widget => {
+              return <Grid item xs={12} md={6} lg={6}>
+                <Paper>
+                  {(() => {
+                    switch (widget.name) {
+                      case 'Temperature':
+                        return <Temperature widget={widget}/>
+                      case 'Humidity':
+                        return <Humidity widget={widget}/>
+                      case 'Weather':
+                        return <Weather widget={widget}/>
+                      case 'Rss':
+                        return <Weather widget={widget}/>
+                      case 'Exchange rate':
+                        return <Currency widget={widget}/>
+                      case 'Price evolution':
+                        return <PriceEvolution widget={widget}/>
+                      case 'Date and time':
+                        return <Calendar widget={widget}/>
+                      default:
+                        return null
+                    }
+                  })()}
+                </Paper>
+              </Grid>
+            })}
           </Grid>
         </Container>
       </main>
