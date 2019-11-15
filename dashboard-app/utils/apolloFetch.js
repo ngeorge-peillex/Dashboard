@@ -11,9 +11,7 @@ apolloFetch.use(({ request, options }, next) => {
   if (!options.headers) {
     options.headers = {} // Create the headers object if needed.
   }
-  options.headers.Authorization = `Bearer ${localStorage.getItem(
-    'apiToken'
-  )}`
+  options.headers.Authorization = `Bearer ${localStorage.getItem('apiToken')}`
 
   next()
 })

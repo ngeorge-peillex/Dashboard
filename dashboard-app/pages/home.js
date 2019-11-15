@@ -93,7 +93,7 @@ export default function Dashboard () {
   // Load widgets
   const [widgetStates, setWidgetStates] = React.useState([])
   React.useEffect(() => {
-    (async () => setWidgetStates(await widgets))()
+    ;(async () => setWidgetStates(await widgets))()
   }, [])
 
   const [state, setState] = React.useState({
@@ -154,30 +154,33 @@ export default function Dashboard () {
         <Container maxWidth='lg' className={classes.container}>
           <Grid container spacing={3}>
             {widgetStates.map(widget => {
-              return <Grid item xs={12} md={6} lg={6}>
-                <Paper>
-                  {(() => {
-                    switch (widget.name) {
-                      case 'Temperature':
-                        return <Temperature widget={widget}/>
-                      case 'Humidity':
-                        return <Humidity widget={widget}/>
-                      case 'Weather':
-                        return <Weather widget={widget}/>
-                      case 'Rss':
-                        return <Weather widget={widget}/>
-                      case 'Exchange rate':
-                        return <Currency widget={widget}/>
-                      case 'Price evolution':
-                        return <PriceEvolution widget={widget}/>
-                      case 'Date and time':
-                        return <Calendar widget={widget}/>
-                      default:
-                        return null
-                    }
-                  })()}
-                </Paper>
-              </Grid>
+              if (!widget.isVisible) return null
+              return (
+                <Grid item xs={12} md={6} lg={6}>
+                  <Paper>
+                    {(() => {
+                      switch (widget.name) {
+                        case 'Temperature':
+                          return <Temperature widget={widget} />
+                        case 'Humidity':
+                          return <Humidity widget={widget} />
+                        case 'Weather':
+                          return <Weather widget={widget} />
+                        case 'Rss':
+                          return <Weather widget={widget} />
+                        case 'Exchange rate':
+                          return <Currency widget={widget} />
+                        case 'Price evolution':
+                          return <PriceEvolution widget={widget} />
+                        case 'Date and time':
+                          return <Calendar widget={widget} />
+                        default:
+                          return null
+                      }
+                    })()}
+                  </Paper>
+                </Grid>
+              )
             })}
           </Grid>
         </Container>

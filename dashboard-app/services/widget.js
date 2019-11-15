@@ -80,10 +80,14 @@ export const updateWidget = async params => {
 
 export const fetchWidgetData = async (name, params) => {
   const userId = await getCurrentUser()
-  if (userId == '') return ""
+  if (userId == '') return ''
 
-  let variableString = Object.keys(params).map(key => "$" + camelize(key) + ": String!").join('\n')
-  let paramString = Object.keys(params).map(key => camelize(key) + ": $" + camelize(key)).join('\n')
+  const variableString = Object.keys(params)
+    .map(key => '$' + camelize(key) + ': String!')
+    .join('\n')
+  const paramString = Object.keys(params)
+    .map(key => camelize(key) + ': $' + camelize(key))
+    .join('\n')
 
   const query = `
     query FetchWidgetData(
@@ -104,6 +108,6 @@ export const fetchWidgetData = async (name, params) => {
   if (response && response.data && response.data.fetchWidgetData) {
     return response.data.fetchWidgetData.data
   } else {
-    return ""
+    return ''
   }
 }

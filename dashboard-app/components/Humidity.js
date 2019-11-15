@@ -2,7 +2,7 @@ import React from 'react'
 import Typography from '@material-ui/core/Typography'
 import Title from './Title'
 
-export default function Deposits(props) {
+export default function Deposits (props) {
   const widget = props.widget
 
   // Retrieve humidity value
@@ -20,7 +20,7 @@ export default function Deposits(props) {
   return (
     <>
       <Title>{widget.name}</Title>
-      <Typography component="p" variant="h4">
+      <Typography component='p' variant='h4'>
         The current humidity in London is {humidity}%
       </Typography>
     </>

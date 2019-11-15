@@ -26,7 +26,7 @@ const Config = () => {
   // Load widgets
   const [widgetStates, setWidgetStates] = React.useState([])
   React.useEffect(() => {
-    (async () => setWidgetStates(await widgets))()
+    ;(async () => setWidgetStates(await widgets))()
   }, [])
 
   // Hook to force rerender the component
