@@ -1,24 +1,46 @@
-let config = require('../config')
+import about from "../services/about";
+import { fetchOneWidget, updateWidget } from "../services/widget";
 
 export class Widget {
-    constructor({ name, service, refreshRate, access_token, isConnected, isVisible }) {
-        this.name = name
-        this.refreshRate = refreshRate
-        this.service = service
-        this.access_token = access_token || undefined
-        this.isConnected = isConnected || false
-        this.isVisible = isVisible || true
+  id = ""
+  refreshRate = 0;
+
+  constructor(args) {
+    this.service = args.service;
+    this.name = args.name;
+    this.description = args.description;
+    this.requireAccessToken = args.requireAccessToken;
+    this.params = args.params;
+    this.isVisible = this.requireAccessToken ? false : true;
+    this.isConnected = this.requireAccessToken ? false : true;
+  }
+
+  async update(params, fetch) {
+    let newData; 
+    if (fetch) {
+      newData = await fetchOneWidget(this.name);
+    } else {
+      newData = await updateWidget({ ...params, id: this.id });
     }
+
+    if (!newData || newData == {}) return
+    this.id = newData.id
+    this.isVisible = newData.isVisible
+    this.isConnected = newData.isConnected
+  }
 }
 
-const widgets = (() => {
-    let widgets = [];
-    for (let [key, value] of Object.entries(config.services)) {
-        for (let widget of value.widgets) {
-            widgets.push(new Widget({ name: widget, service: key, refreshRate: value.refreshRate }))
-        }
+const widgets = (async () => {
+  let services = (await about())["server"]["services"];
+  let widgets = [];
+  for (let service of Object.values(services)) {
+    for (let widget of service.widgets) {
+      widgets.push(new Widget({ service: service.name, ...widget }));
+      widgets[widgets.length - 1].update({}, true)
     }
-    return widgets
-})()
+  }
 
-export default widgets
+  return widgets;
+})();
+
+export default widgets;

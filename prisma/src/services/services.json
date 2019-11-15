@@ -6,6 +6,7 @@
         {
           "name": "Temperature",
           "description": "Display the current temperature in a city.",
+          "requestUrl": "https://api.openweathermap.org/data/2.5/weather?q={city}&APPID={temperatureApiKey}",
           "params": [
             {
               "name": "city",
@@ -36,10 +37,10 @@
       ]
     },
     {
-      "name": "RSS",
+      "name": "Rss",
       "widgets": [
         {
-          "name": "RSS",
+          "name": "Rss",
           "description": "Display list of the last articles in a RSS flux.",
           "params": [
             {

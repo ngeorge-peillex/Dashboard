@@ -8,7 +8,6 @@ import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
 import Checkbox from "@material-ui/core/Checkbox";
 import IconButton from "@material-ui/core/IconButton";
-
 import AddIcon from "@material-ui/icons/Add";
 
 import widgets from "../models/Widget";
@@ -24,34 +23,43 @@ const useStyles = makeStyles(theme => ({
 const Config = () => {
   const classes = useStyles();
 
-  const widgetStates = widgets.map(widget => React.useState(widget));
+  let [widgetStates, setWidgetStates] = React.useState([]);
 
+  // Hook to force rerender the component
   const [, updateState] = React.useState();
   const forceUpdate = React.useCallback(() => updateState({}), []);
 
-  const handleToggle = state => () => {
-    state[0].isVisible = !state[0].isVisible;
-    state[1](state[0]);
+  // Load widgets
+  React.useEffect(async () => { setWidgetStates(await widgets); }, []);
+
+  // Set isVisible property of widgets to true on toggle
+  const handleToggle = index => async () => {
+    await widgetStates[index].update({
+      isVisible: !widgetStates[index].isVisible
+    });
+    setWidgetStates(widgetStates);
     forceUpdate();
   };
 
-  const handleConnect = state => () => {
-    state[0].isConnected = !state[0].isConnected;
-    state[1](state[0]);
+  // Set isVisible property of widgets to true on "Connect" click
+  const handleConnect = index => async () => {
+    await widgetStates[index].update({
+      isConnected: !widgetStates[index].isConnected
+    });
+    setWidgetStates(widgetStates);
     forceUpdate();
   };
 
   return (
     <List className={classes.root}>
-      {widgetStates.map(state => {
-        let widget = state[0];
+      {widgetStates.map((widget, i) => {
         return (
           <ListItem
             key={widget.name}
             role={undefined}
             dense
             button
-            onClick={handleToggle(state)}
+            onClick={handleToggle(i)}
           >
             <ListItemIcon>
               <Checkbox
@@ -64,7 +72,7 @@ const Config = () => {
             <ListItemText primary={widget.name} />
             <ListItemSecondaryAction>
               {!widget.isConnected && (
-                <IconButton edge="end" onClick={handleConnect(state)}>
+                <IconButton edge="end" onClick={handleConnect(i)}>
                   <AddIcon />
                 </IconButton>
               )}

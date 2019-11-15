@@ -1,8 +1,8 @@
 FROM node:current-alpine
 
-# Create Prisma Dir
-RUN mkdir /prisma
-WORKDIR /prisma
+# Create React app dir
+RUN mkdir /react
+WORKDIR /react
 
 # Install dependencies before pushing the rest of the code in order to use
 # cached dependencies when a file other than the package.json is changed in

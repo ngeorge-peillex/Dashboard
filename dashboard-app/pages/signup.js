@@ -12,7 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
-import { signUp } from "../services/auth";
+import { signUp } from "../services/user";
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -53,7 +53,7 @@ export default function SignUp() {
       return
     }
     if (await signUp({ email, password, passwordConfirmation }) == true) {
-      Router.push('/dashboard')
+      Router.push('/home')
     } else {
       alert('Sorry, something went wrong. Please try again.')
     }
@@ -127,4 +127,8 @@ export default function SignUp() {
       </div>
     </Container>
   );
+}
+
+SignUp.componentDidMount = () => {
+  if (localStorage.getItem('apiToken')) Router.push('/home')
 }

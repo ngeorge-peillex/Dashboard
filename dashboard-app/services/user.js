@@ -55,3 +55,26 @@ export const signUp = async credentials => {
 export const signOut = () => {
   localStorage.removeItem('apiToken')
 }
+
+export const getCurrentUser = async () => {
+  const query = `
+    query GetUserFromJwt {
+      me {
+        token
+        expiresIn
+        user {
+          id
+        }
+      }
+    }
+  `;
+
+  const response = await apolloFetch({ query });
+
+  if (response && response['data'] && response['data']['me']) {
+    localStorage.setItem('apiToken', response['data']['me']['token'])
+    return response['data']['me']['user']['id']
+  } else {
+    return ""
+  }
+};

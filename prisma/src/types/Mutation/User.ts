@@ -4,6 +4,23 @@ import { mutationField, stringArg } from 'nexus'
 
 import { JWT_SECRET } from '../../utils/getUserId'
 
+import services from '../../services'
+
+async function initWidgets(photon: any, userId: String) {
+  for (let service of Object.values(services)) {
+    for (let widget of service.widgets) {
+      await photon.widgets.create({
+        data: {
+          name: widget.name,
+          isConnected: widget.requireAccessToken ? false : true,
+          isVisible: widget.requireAccessToken ? false : true,
+          owner: { connect: { id: userId } },
+        },
+      })
+    }
+  }
+}
+
 export const signup = mutationField('signup', {
   type: 'AuthPayload',
   args: {
@@ -11,12 +28,12 @@ export const signup = mutationField('signup', {
     password: stringArg(),
     passwordConfirmation: stringArg(),
     authType: stringArg(),
-    idToken: stringArg()
+    idToken: stringArg(),
   },
   resolve: async (
     parent,
     { email, password, passwordConfirmation, authType, idToken },
-    ctx
+    ctx,
   ) => {
     var user
 
@@ -28,8 +45,8 @@ export const signup = mutationField('signup', {
       user = await ctx.photon.users.create({
         data: {
           email,
-          password: hashedPassword
-        }
+          password: hashedPassword,
+        },
       })
     } else {
       const hashedIdToken = await hash(idToken, 10)
@@ -37,19 +54,20 @@ export const signup = mutationField('signup', {
         data: {
           email,
           authType,
-          idToken: hashedIdToken
-        }
+          idToken: hashedIdToken,
+        },
       })
     }
 
+    initWidgets(ctx.photon, user.id)
     return {
       token: sign({ userId: user.id }, JWT_SECRET, {
-        expiresIn: 86400 * 7
+        expiresIn: 86400 * 7,
       }),
       expiresIn: 86400 * 7,
-      user
+      user,
     }
-  }
+  },
 })
 
 export const signin = mutationField('signin', {
@@ -57,13 +75,13 @@ export const signin = mutationField('signin', {
   args: {
     email: stringArg({ nullable: false }),
     password: stringArg(),
-    idToken: stringArg()
+    idToken: stringArg(),
   },
   resolve: async (parent, { email, password, idToken }, ctx) => {
     const user = await ctx.photon.users.findOne({
       where: {
-        email
-      }
+        email,
+      },
     })
     if (!user) {
       throw new Error(`No user found for email: ${email}`)
@@ -85,10 +103,10 @@ export const signin = mutationField('signin', {
 
     return {
       token: sign({ userId: user.id }, JWT_SECRET, {
-        expiresIn: 86400 * 7
+        expiresIn: 86400 * 7,
       }),
       expiresIn: 86400 * 7,
-      user
+      user,
     }
-  }
+  },
 })

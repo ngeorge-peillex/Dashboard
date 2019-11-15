@@ -12,7 +12,7 @@ import Container from "@material-ui/core/Container";
 import Avatar from "@material-ui/core/Avatar";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 
-import { signIn } from "../services/auth";
+import { signIn } from "../services/user";
 
 const useStyles = makeStyles(theme => ({
   "@global": {
@@ -47,8 +47,8 @@ export default function SignIn() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (await await signIn({ email, password }) == true) {
-      Router.push('/dashboard')
+    if (await signIn({ email, password }) == true) {
+      Router.push('/home')
     } else {
       alert('Invalid email or password.')
     }
@@ -107,4 +107,8 @@ export default function SignIn() {
       </div>
     </Container>
   );
+}
+
+SignIn.componentDidMount = () => {
+  if (localStorage.getItem('apiToken')) Router.push('/home')
 }

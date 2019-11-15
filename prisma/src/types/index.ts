@@ -4,3 +4,4 @@ export { Mutation, Query }
 
 export * from './AuthPayload'
 export * from './User'
+export * from './Widget'

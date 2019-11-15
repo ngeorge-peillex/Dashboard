@@ -3,8 +3,7 @@ import { GraphQLServer } from 'graphql-yoga'
 import { createContext } from './context'
 import { schema } from './schema'
 import { permissions } from './permissions'
-
-const services = require('./services')
+import services from './services'
 
 const server = new GraphQLServer({
   schema,
