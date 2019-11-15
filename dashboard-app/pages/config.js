@@ -1,54 +1,56 @@
-import React from "react";
+import React from 'react'
 
-import { makeStyles } from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import ListItemText from "@material-ui/core/ListItemText";
-import Checkbox from "@material-ui/core/Checkbox";
-import IconButton from "@material-ui/core/IconButton";
-import AddIcon from "@material-ui/icons/Add";
+import { makeStyles } from '@material-ui/core/styles'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
+import ListItemText from '@material-ui/core/ListItemText'
+import Checkbox from '@material-ui/core/Checkbox'
+import IconButton from '@material-ui/core/IconButton'
+import AddIcon from '@material-ui/icons/Add'
 
-import widgets from "../models/Widget";
+import widgets from '../models/Widget'
 
 const useStyles = makeStyles(theme => ({
   root: {
-    width: "100%",
+    width: '100%',
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper
   }
-}));
+}))
 
 const Config = () => {
-  const classes = useStyles();
+  const classes = useStyles()
 
-  let [widgetStates, setWidgetStates] = React.useState([]);
+  const [widgetStates, setWidgetStates] = React.useState([])
 
   // Hook to force rerender the component
-  const [, updateState] = React.useState();
-  const forceUpdate = React.useCallback(() => updateState({}), []);
+  const [, updateState] = React.useState()
+  const forceUpdate = React.useCallback(() => updateState({}), [])
 
   // Load widgets
-  React.useEffect(async () => { setWidgetStates(await widgets); }, []);
+  React.useEffect(async () => {
+    setWidgetStates(await widgets)
+  }, [])
 
   // Set isVisible property of widgets to true on toggle
   const handleToggle = index => async () => {
     await widgetStates[index].update({
       isVisible: !widgetStates[index].isVisible
-    });
-    setWidgetStates(widgetStates);
-    forceUpdate();
-  };
+    })
+    setWidgetStates(widgetStates)
+    forceUpdate()
+  }
 
   // Set isVisible property of widgets to true on "Connect" click
   const handleConnect = index => async () => {
     await widgetStates[index].update({
       isConnected: !widgetStates[index].isConnected
-    });
-    setWidgetStates(widgetStates);
-    forceUpdate();
-  };
+    })
+    setWidgetStates(widgetStates)
+    forceUpdate()
+  }
 
   return (
     <List className={classes.root}>
@@ -63,7 +65,7 @@ const Config = () => {
           >
             <ListItemIcon>
               <Checkbox
-                edge="start"
+                edge='start'
                 checked={widget.isVisible}
                 tabIndex={-1}
                 disableRipple
@@ -72,16 +74,16 @@ const Config = () => {
             <ListItemText primary={widget.name} />
             <ListItemSecondaryAction>
               {!widget.isConnected && (
-                <IconButton edge="end" onClick={handleConnect(i)}>
+                <IconButton edge='end' onClick={handleConnect(i)}>
                   <AddIcon />
                 </IconButton>
               )}
             </ListItemSecondaryAction>
           </ListItem>
-        );
+        )
       })}
     </List>
-  );
-};
+  )
+}
 
-export default Config;
+export default Config

@@ -8,17 +8,17 @@ export const signIn = async credentials => {
         expiresIn
       }
     }
-  `;
+  `
 
-  const response = await apolloFetch({ query, variables: credentials });
+  const response = await apolloFetch({ query, variables: credentials })
 
-  if (response && response['data'] && response['data']['signin']) {
-    localStorage.setItem('apiToken', response['data']['signin']['token'])
+  if (response && response.data && response.data.signin) {
+    localStorage.setItem('apiToken', response.data.signin.token)
     return true
   } else {
     return false
   }
-};
+}
 
 export const signUp = async credentials => {
   const query = `
@@ -40,17 +40,17 @@ export const signUp = async credentials => {
         expiresIn
       }
     }
-  `;
+  `
 
-  const response = await apolloFetch({ query, variables: credentials });
+  const response = await apolloFetch({ query, variables: credentials })
 
-  if (response && response['data'] && response['data']['signup']) {
-    localStorage.setItem('apiToken', response['data']['signup']['token'])
+  if (response && response.data && response.data.signup) {
+    localStorage.setItem('apiToken', response.data.signup.token)
     return true
   } else {
     return false
   }
-};
+}
 
 export const signOut = () => {
   localStorage.removeItem('apiToken')
@@ -67,14 +67,14 @@ export const getCurrentUser = async () => {
         }
       }
     }
-  `;
+  `
 
-  const response = await apolloFetch({ query });
+  const response = await apolloFetch({ query })
 
-  if (response && response['data'] && response['data']['me']) {
-    localStorage.setItem('apiToken', response['data']['me']['token'])
-    return response['data']['me']['user']['id']
+  if (response && response.data && response.data.me) {
+    localStorage.setItem('apiToken', response.data.me.token)
+    return response.data.me.user.id
   } else {
-    return ""
+    return ''
   }
-};
+}

@@ -1,9 +1,9 @@
-import apolloFetch from "../utils/apolloFetch";
+import apolloFetch from '../utils/apolloFetch'
 import { getCurrentUser } from './user'
 
 export const fetchOneWidget = async name => {
   const userId = await getCurrentUser()
-  if (userId == "") return {}
+  if (userId == '') return {}
 
   const query = `
     query FetchOneWidget(
@@ -22,20 +22,28 @@ export const fetchOneWidget = async name => {
         isConnected
       }
     }
-   `;
+   `
 
-  const response = await apolloFetch({ query, variables: { name: name, ownerId: userId } });
+  const response = await apolloFetch({
+    query,
+    variables: { name: name, ownerId: userId }
+  })
 
-  if (response && response["data"] && response["data"]["widgets"] && response["data"]["widgets"][0]) {
-    return response["data"]["widgets"][0];
+  if (
+    response &&
+    response.data &&
+    response.data.widgets &&
+    response.data.widgets[0]
+  ) {
+    return response.data.widgets[0]
   } else {
     return {}
   }
-};
+}
 
 export const updateWidget = async params => {
   const userId = await getCurrentUser()
-  if (userId == "") return {}
+  if (userId == '') return {}
 
   const query = `
     mutation UpdateOneWidget(
@@ -58,13 +66,13 @@ export const updateWidget = async params => {
         isConnected
       }
     }
-   `;
+   `
 
-  const response = await apolloFetch({ query, variables: params });
+  const response = await apolloFetch({ query, variables: params })
 
-  if (response && response["data"]) {
-    return response["data"]["updateOneWidget"];
+  if (response && response.data) {
+    return response.data.updateOneWidget
   } else {
     return {}
   }
-};
+}

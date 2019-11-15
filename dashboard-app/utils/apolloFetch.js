@@ -1,41 +1,41 @@
-import { createApolloFetch } from "apollo-fetch";
+import { createApolloFetch } from 'apollo-fetch'
 
 const uri =
-  process.env.NODE_ENV === "production"
+  process.env.NODE_ENV === 'production'
     ? process.env.API_ENDPOINT
-    : "http://localhost:8080/";
+    : 'http://localhost:8080/'
 
-const apolloFetch = createApolloFetch({ uri });
+const apolloFetch = createApolloFetch({ uri })
 
 apolloFetch.use(({ request, options }, next) => {
   if (!options.headers) {
-    options.headers = {}; // Create the headers object if needed.
+    options.headers = {} // Create the headers object if needed.
   }
-  options.headers["Authorization"] = `Bearer ${localStorage.getItem(
+  options.headers.Authorization = `Bearer ${localStorage.getItem(
     'apiToken'
-  )}`;
+  )}`
 
-  next();
-});
+  next()
+})
 
 apolloFetch.useAfter(({ response }, next) => {
   if (response.status === 401) {
-    logout();
+    logout()
     if (!response.parsed) {
-      //set parsed response to valid FetchResult
+      // set parsed response to valid FetchResult
       response.parsed = {
         data: { user: null }
-      };
+      }
     }
   }
-  next();
-});
+  next()
+})
 
 apolloFetch.useAfter(({ response }, next) => {
   if (response.status !== 200) {
-    console.error(response);
+    console.error(response)
   }
-  next();
-});
+  next()
+})
 
-export default apolloFetch;
+export default apolloFetch

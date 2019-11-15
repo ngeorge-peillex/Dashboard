@@ -2,7 +2,7 @@ import about from "../services/about";
 import { fetchOneWidget, updateWidget } from "../services/widget";
 
 export class Widget {
-  id = ""
+  id = "";
   refreshRate = 0;
 
   constructor(args) {
@@ -16,17 +16,17 @@ export class Widget {
   }
 
   async update(params, fetch) {
-    let newData; 
+    let newData;
     if (fetch) {
       newData = await fetchOneWidget(this.name);
     } else {
       newData = await updateWidget({ ...params, id: this.id });
     }
 
-    if (!newData || newData == {}) return
-    this.id = newData.id
-    this.isVisible = newData.isVisible
-    this.isConnected = newData.isConnected
+    if (!newData || newData == {}) return;
+    this.id = newData.id;
+    this.isVisible = newData.isVisible;
+    this.isConnected = newData.isConnected;
   }
 }
 
@@ -36,7 +36,7 @@ const widgets = (async () => {
   for (let service of Object.values(services)) {
     for (let widget of service.widgets) {
       widgets.push(new Widget({ service: service.name, ...widget }));
-      widgets[widgets.length - 1].update({}, true)
+      widgets[widgets.length - 1].update({}, true);
     }
   }
 

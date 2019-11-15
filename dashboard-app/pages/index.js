@@ -1,53 +1,53 @@
-import React from 'react';
+import React from 'react'
 import Router from 'next/router'
 
-import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
-import Link from "@material-ui/core/Link";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
-import Avatar from "@material-ui/core/Avatar";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Button from '@material-ui/core/Button'
+import CssBaseline from '@material-ui/core/CssBaseline'
+import TextField from '@material-ui/core/TextField'
+import Link from '@material-ui/core/Link'
+import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography'
+import { makeStyles } from '@material-ui/core/styles'
+import Container from '@material-ui/core/Container'
+import Avatar from '@material-ui/core/Avatar'
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 
-import { signIn } from "../services/user";
+import { signIn } from '../services/user'
 
 const useStyles = makeStyles(theme => ({
-  "@global": {
+  '@global': {
     body: {
       backgroundColor: theme.palette.common.white
     }
   },
   paper: {
     marginTop: theme.spacing(8),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center"
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
   },
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main
   },
   form: {
-    width: "100%",
+    width: '100%',
     marginTop: theme.spacing(1)
   },
   submit: {
     margin: theme.spacing(3, 0, 2)
   }
-}));
+}))
 
-export default function SignIn() {
-  const classes = useStyles();
+export default function SignIn () {
+  const classes = useStyles()
 
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const [email, setEmail] = React.useState('')
+  const [password, setPassword] = React.useState('')
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    if (await signIn({ email, password }) == true) {
+  const handleSubmit = async event => {
+    event.preventDefault()
+    if ((await signIn({ email, password })) == true) {
       Router.push('/home')
     } else {
       alert('Invalid email or password.')
@@ -55,50 +55,50 @@ export default function SignIn() {
   }
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component='main' maxWidth='xs'>
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component="h1" variant="h5">
+        <Typography component='h1' variant='h5'>
           Sign in
         </Typography>
         <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <TextField
-            variant="outlined"
-            margin="normal"
+            variant='outlined'
+            margin='normal'
             required
             fullWidth
-            label="Email Address"
+            label='Email Address'
             value={email}
-            onChange={(event) => setEmail(event.target.value)}
-            autoComplete="email"
+            onChange={event => setEmail(event.target.value)}
+            autoComplete='email'
             autoFocus
           />
           <TextField
-            variant="outlined"
-            margin="normal"
+            variant='outlined'
+            margin='normal'
             required
             fullWidth
             value={password}
-            onChange={(event) => setPassword(event.target.value)}
-            label="Password"
-            type="password"
-            autoComplete="current-password"
+            onChange={event => setPassword(event.target.value)}
+            label='Password'
+            type='password'
+            autoComplete='current-password'
           />
           <Button
-            type="submit"
+            type='submit'
             fullWidth
-            variant="contained"
-            color="primary"
+            variant='contained'
+            color='primary'
             className={classes.submit}
           >
             Sign In
           </Button>
           <Grid container>
-            <Grid item container justify="center">
-              <Link href="/signup" variant="body2">
+            <Grid item container justify='center'>
+              <Link href='/signup' variant='body2'>
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
@@ -106,7 +106,7 @@ export default function SignIn() {
         </form>
       </div>
     </Container>
-  );
+  )
 }
 
 SignIn.componentDidMount = () => {
