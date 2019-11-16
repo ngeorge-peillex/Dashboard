@@ -166,8 +166,6 @@ export default function Dashboard () {
                           return <Humidity widget={widget} />
                         case 'Weather':
                           return <Weather widget={widget} />
-                        case 'Rss':
-                          return <Weather widget={widget} />
                         case 'Exchange rate':
                           return <Currency widget={widget} />
                         case 'Price evolution':

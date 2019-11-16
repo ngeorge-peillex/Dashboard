@@ -78,3 +78,11 @@ export const getCurrentUser = async () => {
     return ''
   }
 }
+
+export const oAuthSignIn = credentials => {
+  if (!signUp(credentials)) {
+    return signIn(credentials)
+  } else {
+    return true
+  }
+}
