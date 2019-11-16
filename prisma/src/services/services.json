@@ -7,6 +7,7 @@
           "name": "Temperature",
           "description": "Display the current temperature in a city.",
           "requestUrl": "https://api.openweathermap.org/data/2.5/weather?q={city}&APPID={OPEN_WEATHER_APIKEY}",
+          "authRequired": false,
           "params": [
             {
               "name": "city",
@@ -18,6 +19,7 @@
           "name": "Humidity",
           "description": "Display the current humidity in a city.",
           "requestUrl": "https://api.openweathermap.org/data/2.5/weather?q={city}&APPID={OPEN_WEATHER_APIKEY}",
+          "authRequired": false,
           "params": [
             {
               "name": "city",
@@ -28,29 +30,11 @@
         {
           "name": "Weather",
           "description": "Display the current weather in a city.",
+          "authRequired": false,
           "params": [
             {
               "name": "city",
               "type": "string"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Rss",
-      "widgets": [
-        {
-          "name": "Rss",
-          "description": "Display list of the last articles in a RSS flux.",
-          "params": [
-            {
-              "name": "city",
-              "type": "string"
-            },
-            {
-              "name": "number",
-              "type": "integer"
             }
           ]
         }
@@ -62,6 +46,7 @@
         {
           "name": "Exchange rate",
           "description": "Display the exchange rate of a currency pair.",
+          "authRequired": false,
           "params": [
             {
               "name": "currency",
@@ -72,6 +57,7 @@
         {
           "name": "Price evolution",
           "description": "Display the evolution of a currency.",
+          "authRequired": false,
           "params": [
             {
               "name": "currency",
@@ -87,9 +73,26 @@
         {
           "name": "Date and time",
           "description": "Display the current date and time in a specific city.",
+          "authRequired": false,
           "params": [
             {
               "name": "city",
+              "type": "string"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Trello",
+      "widgets": [
+        {
+          "name": "Trello notifications",
+          "description": "Display the notifications on a board.",
+          "authRequired": true,
+          "params": [
+            {
+              "name": "board",
               "type": "string"
             }
           ]
