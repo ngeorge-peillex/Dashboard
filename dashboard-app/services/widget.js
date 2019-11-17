@@ -1,9 +1,9 @@
 import apolloFetch from '../utils/apolloFetch'
 import camelize from '../utils/camelize'
-import { getCurrentUser } from './user'
+import { getCurrentUserId } from './user'
 
 export const fetchOneWidget = async name => {
-  const userId = await getCurrentUser()
+  const userId = await getCurrentUserId()
   if (userId == '') return {}
 
   const query = `
@@ -43,7 +43,7 @@ export const fetchOneWidget = async name => {
 }
 
 export const updateWidget = async params => {
-  const userId = await getCurrentUser()
+  const userId = await getCurrentUserId()
   if (userId == '') return {}
 
   const query = `
@@ -78,8 +78,8 @@ export const updateWidget = async params => {
   }
 }
 
-export const fetchWidgetData = async (name, params) => {
-  const userId = await getCurrentUser()
+export const fetchWidgetData = async (name, params, accessToken) => {
+  const userId = await getCurrentUserId()
   if (userId == '') return ''
 
   const variableString = Object.keys(params)
@@ -96,14 +96,18 @@ export const fetchWidgetData = async (name, params) => {
       fetchWidgetData(
         ${camelize(name)}: {
           ${paramString}
+          ${accessToken ? `accessToken: ${accessToken}` : ''}
         }
       ) {
         data
       }
     }
-   `
+  `
 
-  const response = await apolloFetch({ query, variables: params })
+  const response = await apolloFetch({
+    query,
+    variables: params
+  })
 
   if (response && response.data && response.data.fetchWidgetData) {
     return response.data.fetchWidgetData.data

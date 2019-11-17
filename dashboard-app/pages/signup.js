@@ -1,5 +1,6 @@
 import React from 'react'
 import Router from 'next/router'
+import GoogleLogin from 'react-google-login'
 
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
@@ -12,7 +13,7 @@ import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 
-import { signUp } from '../services/user'
+import { signUp, oAuthSignIn } from '../services/user'
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -55,6 +56,21 @@ export default function SignUp () {
     if ((await signUp({ email, password, passwordConfirmation })) == true) {
       Router.push('/home')
     } else {
+      alert('Sorry, something went wrong. Please try again.')
+    }
+  }
+
+  const oAuthLoginSuccess = async result => {
+    if ((await oAuthSignIn(result)) == true) {
+      Router.push('/home')
+    } else {
+      alert('Sorry, something went wrong. Please try again.')
+    }
+  }
+
+  const oAuthLoginFailure = async error => {
+    if (error.error != 'popup_closed_by_user') {
+      console.log(error)
       alert('Sorry, something went wrong. Please try again.')
     }
   }
@@ -121,6 +137,16 @@ export default function SignUp () {
               <Link href='/' variant='body2'>
                 Already have an account? Sign in
               </Link>
+            </Grid>
+            <Grid item container justify='center'>
+              <GoogleLogin
+                clientId='793712980515-ldaaa1jtnofj1huop8mhkqubfe9m47fc.apps.googleusercontent.com'
+                scope='profile email https://www.googleapis.com/auth/calendar'
+                buttonText='Login'
+                onSuccess={oAuthLoginSuccess}
+                onFailure={oAuthLoginFailure}
+                cookiePolicy='single_host_origin'
+              />
             </Grid>
           </Grid>
         </form>

@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-export default function Deposits (props) {
+export default function Humidity (props) {
   const widget = props.widget
   const classes = useStyles()
 

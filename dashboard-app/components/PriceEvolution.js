@@ -45,7 +45,7 @@ const rows = [
   createData('Mai 2019', 356)
 ]
 
-export default function SimpleTable (props) {
+export default function PriceEvolution (props) {
   const widget = props.widget
   const classes = useStyles()
 

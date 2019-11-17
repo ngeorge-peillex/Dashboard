@@ -7,7 +7,7 @@ export interface Widget {
   name: string
   description: string
   requestUrl: string
-  requireAccessToken: boolean
+  authRequired: boolean
   params: Param[]
 }
 

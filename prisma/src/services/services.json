@@ -7,6 +7,7 @@
           "name": "Temperature",
           "description": "Display the current temperature in a city.",
           "requestUrl": "https://api.openweathermap.org/data/2.5/weather?q={city}&APPID={OPEN_WEATHER_APIKEY}",
+          "authRequired": false,
           "params": [
             {
               "name": "city",
@@ -18,6 +19,7 @@
           "name": "Humidity",
           "description": "Display the current humidity in a city.",
           "requestUrl": "https://api.openweathermap.org/data/2.5/weather?q={city}&APPID={OPEN_WEATHER_APIKEY}",
+          "authRequired": false,
           "params": [
             {
               "name": "city",
@@ -28,30 +30,15 @@
         {
           "name": "Weather",
           "description": "Display the current weather in a city.",
+<<<<<<< HEAD
           "requestUrl": "https://api.openweathermap.org/data/2.5/weather?q={city}&APPID={OPEN_WEATHER_APIKEY}",
+=======
+          "authRequired": false,
+>>>>>>> 387143567a410f5ba47adae7bc5801516c0ce441
           "params": [
             {
               "name": "city",
               "type": "string"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Rss",
-      "widgets": [
-        {
-          "name": "Rss",
-          "description": "Display list of the last articles in a RSS flux.",
-          "params": [
-            {
-              "name": "city",
-              "type": "string"
-            },
-            {
-              "name": "number",
-              "type": "integer"
             }
           ]
         }
@@ -63,7 +50,11 @@
         {
           "name": "Exchange rate",
           "description": "Display the exchange rate of a currency pair.",
+<<<<<<< HEAD
           "requestUrl": "https://free.currconv.com/api/v7/convert?q={convert}&compact=ultra&apiKey={CURRCONV_APIKEY}",
+=======
+          "authRequired": false,
+>>>>>>> 387143567a410f5ba47adae7bc5801516c0ce441
           "params": [
             {
               "name": "convert",
@@ -74,7 +65,11 @@
         {
           "name": "Price evolution",
           "description": "Display the evolution of a currency.",
+<<<<<<< HEAD
           "requestUrl": "https://api.exchangeratesapi.io/history?start_at=2019-09-01&end_at=2019-10-01&base={base}&symbols={to}",
+=======
+          "authRequired": false,
+>>>>>>> 387143567a410f5ba47adae7bc5801516c0ce441
           "params": [
             {
               "name": "base",
@@ -94,10 +89,31 @@
         {
           "name": "Date and time",
           "description": "Display the current date and time in a specific city.",
+<<<<<<< HEAD
           "requestUrl": "http://worldtimeapi.org/api/timezone/Europe/{city}",
+=======
+          "authRequired": false,
+>>>>>>> 387143567a410f5ba47adae7bc5801516c0ce441
           "params": [
             {
               "name": "city",
+              "type": "string"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Google Calendar",
+      "widgets": [
+        {
+          "name": "Google calendar events",
+          "description": "Display the events since a specific date.",
+          "requestUrl": "https://www.googleapis.com/calendar/v3/calendars/{email}/events?timeMin={timeMin}&key={GOOGLE_CLIENT_ID}",
+          "authRequired": true,
+          "params": [
+            {
+              "name": "timeMin",
               "type": "string"
             }
           ]

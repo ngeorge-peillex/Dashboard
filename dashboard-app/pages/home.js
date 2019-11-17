@@ -1,5 +1,6 @@
 import React from 'react'
 import clsx from 'clsx'
+
 import { makeStyles } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import AppBar from '@material-ui/core/AppBar'
@@ -15,11 +16,12 @@ import Config from '../pages/config'
 import Weather from '../components/Weather'
 import Temperature from '../components/Temperature'
 import Humidity from '../components/Humidity'
-import Calendar from '../components/Calendar'
+import DateTime from '../components/DateTime'
 import Currency from '../components/Currency'
 import PriceEvolution from '../components/PriceEvolution'
+import Events from '../components/Events'
 
-const drawerWidth = 240
+const drawerWidth = 350
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -45,6 +47,9 @@ const useStyles = makeStyles(theme => ({
     border: '2px solid #000',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3)
+  },
+  drawer: {
+    width: drawerWidth
   },
   drawerPaper: {
     position: 'relative',
@@ -79,7 +84,8 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2),
     display: 'flex',
     overflow: 'auto',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    width: '50%'
   },
   fixedHeight: {
     height: 140
@@ -138,8 +144,9 @@ export default function Dashboard () {
       anchor='right'
       open={state.right}
       onClose={toggleDrawer('right', false)}
+      classes={{ paper: classes.drawer }}
     >
-      {Config()}
+      <Config />
     </Drawer>
   )
 
@@ -154,7 +161,7 @@ export default function Dashboard () {
         <Container maxWidth='lg' className={classes.container}>
           <Grid container spacing={3}>
             {widgetStates.map(widget => {
-              if (!widget.isVisible) return null
+              if (!widget.isVisible || !widget.isConnected) return null
               return (
                 <Grid item xs={12} md={6} lg={6}>
                   <Paper>
@@ -166,14 +173,14 @@ export default function Dashboard () {
                           return <Humidity widget={widget} />
                         case 'Weather':
                           return <Weather widget={widget} />
-                        case 'Rss':
-                          return <Weather widget={widget} />
                         case 'Exchange rate':
                           return <Currency widget={widget} />
                         case 'Price evolution':
                           return <PriceEvolution widget={widget} />
                         case 'Date and time':
-                          return <Calendar widget={widget} />
+                          return <DateTime widget={widget} />
+                        case 'Google calendar events':
+                          return <Events widget={widget} />
                         default:
                           return null
                       }

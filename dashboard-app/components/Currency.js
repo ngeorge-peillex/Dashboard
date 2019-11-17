@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function Deposits (props) {
+export default function Currency (props) {
   const widget = props.widget
   const classes = useStyles()
   const [baseAmount, setBaseAmount] = React.useState('1')
