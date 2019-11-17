@@ -20,13 +20,13 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function Deposits () {
+export default function Deposits (props) {
+  const widget = props.widget
   const classes = useStyles()
-  const [baseAmount, setBaseAmount] = React.useState(0)
-  const [wantedAmount, setWantedAmount] = React.useState(0)
-  const [baseCurrency, setBaseCurrency] = React.useState('')
-  const [wantedCurrency, setWantedCurrency] = React.useState('')
-  const [exchangeRate, setExchangeRate] = React.useState(0)
+  const [baseAmount, setBaseAmount] = React.useState('1')
+  const [wantedAmount, setWantedAmount] = React.useState('1')
+  const [baseCurrency, setBaseCurrency] = React.useState('EUR')
+  const [wantedCurrency, setWantedCurrency] = React.useState('USD')
 
   const handleChangeBase = event => {
     setBaseCurrency(event.target.value)
@@ -39,6 +39,17 @@ export default function Deposits () {
   const handleChangeBaseAmount = event => {
     setBaseAmount(event.target.value)
   }
+
+  React.useEffect(() => {
+    ;(async () => {
+      let result = await widget.fetchData({ convert: baseCurrency.concat('_', wantedCurrency) })
+      if (!result || result == '') return
+
+      let converted = baseCurrency.concat('_', wantedCurrency);
+      result = JSON.parse(result)[converted]
+      setWantedAmount(baseAmount * result)
+    })()
+  }, [wantedCurrency, baseAmount, baseCurrency])
 
   return (
     <>
@@ -59,9 +70,9 @@ export default function Deposits () {
             value={baseCurrency}
             onChange={handleChangeBase}
           >
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
+            <MenuItem value="EUR">Euro</MenuItem>
+            <MenuItem value="USD">Dollar</MenuItem>
+            <MenuItem value="GBP">Livre</MenuItem>
           </Select>
         </FormControl>
         <Divider />
@@ -82,9 +93,9 @@ export default function Deposits () {
             value={wantedCurrency}
             onChange={handleChangeWanted}
           >
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
+            <MenuItem value="EUR">Euro</MenuItem>
+            <MenuItem value="USD">Dollar</MenuItem>
+            <MenuItem value="GBP">Livre</MenuItem>
           </Select>
         </FormControl>
       </div>

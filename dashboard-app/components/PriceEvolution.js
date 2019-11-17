@@ -7,6 +7,10 @@ import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
+import FormControl from '@material-ui/core/FormControl'
+import InputLabel from '@material-ui/core/InputLabel'
+import Select from '@material-ui/core/Select'
+import MenuItem from '@material-ui/core/MenuItem'
 
 const useStyles = makeStyles({
   root: {
@@ -15,7 +19,18 @@ const useStyles = makeStyles({
   },
   table: {
     minWidth: 150
-  }
+  },
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  formControl: {
+    marginLeft: 8,
+    minWidth: 120
+  },
+  textField: {
+    marginLeft: 8
+  },
 })
 
 function createData (month, price) {
@@ -30,12 +45,69 @@ const rows = [
   createData('Mai 2019', 356)
 ]
 
-export default function SimpleTable () {
+export default function SimpleTable (props) {
+  const widget = props.widget
   const classes = useStyles()
+
+  const [baseCurrency, setBaseCurrency] = React.useState('EUR')
+  const [wantedCurrency, setWantedCurrency] = React.useState('USD')
+  const [evolution, setEvolution] = React.useState({})
+  const [, updateState] = React.useState()
+  const forceUpdate = React.useCallback(() => updateState({}), [])
+
+  const handleChangeBase = event => {
+    setBaseCurrency(event.target.value)
+  }
+
+  const handleChangeWanted = event => {
+    setWantedCurrency(event.target.value)
+  }
+
+  React.useEffect(() => {
+    ;(async () => {
+      let result = await widget.fetchData({ base: baseCurrency, to: wantedCurrency })
+      if (!result || result == '') return
+
+      result = JSON.parse(result).rates
+      console.log(result)
+      setEvolution(result)
+      forceUpdate()
+      console.log(evolution)
+    })()
+  }, [wantedCurrency, baseCurrency])
+
 
   return (
     <>
       <Title>Price evolution</Title>
+      <div className={classes.container}>
+      <FormControl className={classes.formControl}>
+          <InputLabel id='demo-simple-select-label'>From currency</InputLabel>
+          <Select
+            labelId='demo-simple-select-label'
+            id='demo-simple-select'
+            value={baseCurrency}
+            onChange={handleChangeBase}
+          >
+            <MenuItem value="EUR">Euro</MenuItem>
+            <MenuItem value="USD">Dollar</MenuItem>
+            <MenuItem value="GBP">Livre</MenuItem>
+          </Select>
+        </FormControl>
+        <FormControl className={classes.formControl}>
+          <InputLabel id='demo-simple-select-label'>To currency</InputLabel>
+          <Select
+            labelId='demo-simple-select-label'
+            id='demo-simple-select'
+            value={wantedCurrency}
+            onChange={handleChangeWanted}
+          >
+            <MenuItem value="EUR">Euro</MenuItem>
+            <MenuItem value="USD">Dollar</MenuItem>
+            <MenuItem value="GBP">Livre</MenuItem>
+          </Select>
+        </FormControl>
+      </div>
       <Paper className={classes.root}>
         <Table className={classes.table} aria-label='simple table'>
           <TableHead>
