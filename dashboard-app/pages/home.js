@@ -41,11 +41,6 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1
   },
   paper: {
-    position: 'absolute',
-    width: 400,
-    backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
-    boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3)
   },
   drawer: {
@@ -79,13 +74,6 @@ const useStyles = makeStyles(theme => ({
   container: {
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4)
-  },
-  paper: {
-    padding: theme.spacing(2),
-    display: 'flex',
-    overflow: 'auto',
-    flexDirection: 'column',
-    width: '50%'
   },
   fixedHeight: {
     height: 140
@@ -164,7 +152,7 @@ export default function Dashboard () {
               if (!widget.isVisible || !widget.isConnected) return null
               return (
                 <Grid item xs={12} md={6} lg={6}>
-                  <Paper>
+                  <Paper className={classes.paper}>
                     {(() => {
                       switch (widget.name) {
                         case 'Temperature':

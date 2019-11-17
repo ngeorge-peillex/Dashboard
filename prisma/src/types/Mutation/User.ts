@@ -93,7 +93,7 @@ export const signin = mutationField('signin', {
         throw new Error('Invalid password')
       }
     } else if (idToken) {
-      const idTokenValid = await compare(idToken, user.password)
+      const idTokenValid = await compare(idToken, user.idToken)
       if (!idTokenValid) {
         throw new Error('Invalid ID token')
       }

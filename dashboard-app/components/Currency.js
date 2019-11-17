@@ -23,26 +23,60 @@ const useStyles = makeStyles(theme => ({
 export default function Currency (props) {
   const widget = props.widget
   const classes = useStyles()
+
+  const tick = () => updateData()
+
+  const updateRefreshRate = value => {
+    setRefreshRate(value)
+    if (value && value.length && parseInt(value)) {
+      clearInterval(intervalTick)
+      setIntervalTick(setInterval(tick, parseInt(value) * 1000))
+    }
+  }
+
+  const [refreshRate, setRefreshRate] = React.useState('30')
+  const [intervalTick, setIntervalTick] = React.useState(0)
+
+  React.useEffect(() => {
+    updateRefreshRate(refreshRate)
+  }, [])
+
+  const refreshRateInput = (
+    <TextField
+      variant='outlined'
+      margin='normal'
+      label='Refresh rate'
+      value={refreshRate}
+      onChange={event => updateRefreshRate(event.target.value)}
+    />
+  )
+
   const [baseAmount, setBaseAmount] = React.useState('1')
   const [wantedAmount, setWantedAmount] = React.useState('1')
   const [baseCurrency, setBaseCurrency] = React.useState('EUR')
   const [wantedCurrency, setWantedCurrency] = React.useState('USD')
 
-  React.useEffect(() => {
-    ;(async () => {
-      let result = await widget.fetchData({ convert: baseCurrency.concat('_', wantedCurrency) })
-      if (!result || result == '') return
+  async function updateData () {
+    let result = await widget.fetchData({
+      convert: baseCurrency.concat('_', wantedCurrency)
+    })
+    if (!result || result == '') return
 
-      let converted = baseCurrency.concat('_', wantedCurrency);
-      result = JSON.parse(result)[converted]
-      setWantedAmount(baseAmount * result)
-    })()
+    const converted = baseCurrency.concat('_', wantedCurrency)
+    result = JSON.parse(result)[converted]
+    setWantedAmount(baseAmount * result)
+  }
+
+  React.useEffect(() => {
+    updateData()
   }, [baseAmount, baseCurrency, wantedCurrency])
 
   return (
     <>
       <div>
         <Title>Currency exchange rate</Title>
+        {refreshRateInput}
+        <br />
         <TextField
           id='standard-basic'
           className={classes.textField}
@@ -58,9 +92,9 @@ export default function Currency (props) {
             value={baseCurrency}
             onChange={event => setBaseCurrency(event.target.value)}
           >
-            <MenuItem value="EUR">Euro</MenuItem>
-            <MenuItem value="USD">Dollar</MenuItem>
-            <MenuItem value="GBP">Livre</MenuItem>
+            <MenuItem value='EUR'>Euro</MenuItem>
+            <MenuItem value='USD'>Dollar</MenuItem>
+            <MenuItem value='GBP'>Livre</MenuItem>
           </Select>
         </FormControl>
         <Divider />
@@ -81,9 +115,9 @@ export default function Currency (props) {
             value={wantedCurrency}
             onChange={event => setWantedCurrency(event.target.value)}
           >
-            <MenuItem value="EUR">Euro</MenuItem>
-            <MenuItem value="USD">Dollar</MenuItem>
-            <MenuItem value="GBP">Livre</MenuItem>
+            <MenuItem value='EUR'>Euro</MenuItem>
+            <MenuItem value='USD'>Dollar</MenuItem>
+            <MenuItem value='GBP'>Livre</MenuItem>
           </Select>
         </FormControl>
       </div>

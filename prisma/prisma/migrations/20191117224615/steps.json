@@ -1,0 +1,183 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "stepType": "CreateModel",
+      "model": "User"
+    },
+    {
+      "stepType": "CreateField",
+      "model": "User",
+      "field": "id",
+      "type": "String",
+      "arity": "required"
+    },
+    {
+      "stepType": "CreateDirective",
+      "model": "User",
+      "field": "id",
+      "directive": "default"
+    },
+    {
+      "stepType": "CreateDirectiveArgument",
+      "model": "User",
+      "field": "id",
+      "directive": "default",
+      "argument": "",
+      "value": "cuid()"
+    },
+    {
+      "stepType": "CreateDirective",
+      "model": "User",
+      "field": "id",
+      "directive": "id"
+    },
+    {
+      "stepType": "CreateDirective",
+      "model": "User",
+      "field": "id",
+      "directive": "unique"
+    },
+    {
+      "stepType": "CreateField",
+      "model": "User",
+      "field": "createdAt",
+      "type": "DateTime",
+      "arity": "required"
+    },
+    {
+      "stepType": "CreateDirective",
+      "model": "User",
+      "field": "createdAt",
+      "directive": "default"
+    },
+    {
+      "stepType": "CreateDirectiveArgument",
+      "model": "User",
+      "field": "createdAt",
+      "directive": "default",
+      "argument": "",
+      "value": "now()"
+    },
+    {
+      "stepType": "CreateField",
+      "model": "User",
+      "field": "email",
+      "type": "String",
+      "arity": "required"
+    },
+    {
+      "stepType": "CreateDirective",
+      "model": "User",
+      "field": "email",
+      "directive": "unique"
+    },
+    {
+      "stepType": "CreateField",
+      "model": "User",
+      "field": "password",
+      "type": "String",
+      "arity": "optional"
+    },
+    {
+      "stepType": "CreateField",
+      "model": "User",
+      "field": "authType",
+      "type": "String",
+      "arity": "required"
+    },
+    {
+      "stepType": "CreateDirective",
+      "model": "User",
+      "field": "authType",
+      "directive": "default"
+    },
+    {
+      "stepType": "CreateDirectiveArgument",
+      "model": "User",
+      "field": "authType",
+      "directive": "default",
+      "argument": "",
+      "value": "\"classic\""
+    },
+    {
+      "stepType": "CreateField",
+      "model": "User",
+      "field": "idToken",
+      "type": "String",
+      "arity": "optional"
+    },
+    {
+      "stepType": "CreateField",
+      "model": "User",
+      "field": "widgets",
+      "type": "Widget",
+      "arity": "list"
+    },
+    {
+      "stepType": "CreateModel",
+      "model": "Widget"
+    },
+    {
+      "stepType": "CreateField",
+      "model": "Widget",
+      "field": "id",
+      "type": "String",
+      "arity": "required"
+    },
+    {
+      "stepType": "CreateDirective",
+      "model": "Widget",
+      "field": "id",
+      "directive": "default"
+    },
+    {
+      "stepType": "CreateDirectiveArgument",
+      "model": "Widget",
+      "field": "id",
+      "directive": "default",
+      "argument": "",
+      "value": "cuid()"
+    },
+    {
+      "stepType": "CreateDirective",
+      "model": "Widget",
+      "field": "id",
+      "directive": "id"
+    },
+    {
+      "stepType": "CreateDirective",
+      "model": "Widget",
+      "field": "id",
+      "directive": "unique"
+    },
+    {
+      "stepType": "CreateField",
+      "model": "Widget",
+      "field": "name",
+      "type": "String",
+      "arity": "required"
+    },
+    {
+      "stepType": "CreateField",
+      "model": "Widget",
+      "field": "isVisible",
+      "type": "Boolean",
+      "arity": "required"
+    },
+    {
+      "stepType": "CreateField",
+      "model": "Widget",
+      "field": "isConnected",
+      "type": "Boolean",
+      "arity": "required"
+    },
+    {
+      "stepType": "CreateField",
+      "model": "Widget",
+      "field": "owner",
+      "type": "User",
+      "arity": "required"
+    }
+  ]
+}
