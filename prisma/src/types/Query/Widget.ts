@@ -25,7 +25,7 @@ const widgetArgs = (() => {
         definition(t) {
           // Iterate over parameters of a widget
           for (let param of widget.params) {
-            if (param.type == 'int') {
+            if (param.type == 'integer') {
               t.int(camelize(param.name))
             } else if (param.type == 'string') {
               t.string(camelize(param.name))

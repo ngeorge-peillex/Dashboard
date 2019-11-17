@@ -28,6 +28,7 @@
         {
           "name": "Weather",
           "description": "Display the current weather in a city.",
+          "requestUrl": "https://api.openweathermap.org/data/2.5/weather?q={city}&APPID={OPEN_WEATHER_APIKEY}",
           "params": [
             {
               "name": "city",
@@ -62,9 +63,10 @@
         {
           "name": "Exchange rate",
           "description": "Display the exchange rate of a currency pair.",
+          "requestUrl": "https://free.currconv.com/api/v7/convert?q={convert}&compact=ultra&apiKey={CURRCONV_APIKEY}",
           "params": [
             {
-              "name": "currency",
+              "name": "convert",
               "type": "string"
             }
           ]
@@ -72,9 +74,14 @@
         {
           "name": "Price evolution",
           "description": "Display the evolution of a currency.",
+          "requestUrl": "https://api.exchangeratesapi.io/history?start_at=2019-09-01&end_at=2019-10-01&base={base}&symbols={to}",
           "params": [
             {
-              "name": "currency",
+              "name": "base",
+              "type": "string"
+            },
+            {
+              "name": "to",
               "type": "string"
             }
           ]
@@ -87,6 +94,7 @@
         {
           "name": "Date and time",
           "description": "Display the current date and time in a specific city.",
+          "requestUrl": "http://worldtimeapi.org/api/timezone/Europe/{city}",
           "params": [
             {
               "name": "city",
