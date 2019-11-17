@@ -33,17 +33,6 @@ const useStyles = makeStyles({
   },
 })
 
-function createData (month, price) {
-  return { month, price }
-}
-
-const rows = [
-  createData('Janvier 2019', 159),
-  createData('Fevrier 2019', 237),
-  createData('Mars 2019', 262),
-  createData('Avril 2019', 305),
-  createData('Mai 2019', 356)
-]
 
 export default function PriceEvolution (props) {
   const widget = props.widget
@@ -55,27 +44,17 @@ export default function PriceEvolution (props) {
   const [, updateState] = React.useState()
   const forceUpdate = React.useCallback(() => updateState({}), [])
 
-  const handleChangeBase = event => {
-    setBaseCurrency(event.target.value)
-  }
-
-  const handleChangeWanted = event => {
-    setWantedCurrency(event.target.value)
-  }
-
   React.useEffect(() => {
     ;(async () => {
       let result = await widget.fetchData({ base: baseCurrency, to: wantedCurrency })
       if (!result || result == '') return
 
       result = JSON.parse(result).rates
-      console.log(result)
       setEvolution(result)
+      console.log(result)
       forceUpdate()
-      console.log(evolution)
     })()
   }, [wantedCurrency, baseCurrency])
-
 
   return (
     <>
@@ -87,7 +66,7 @@ export default function PriceEvolution (props) {
             labelId='demo-simple-select-label'
             id='demo-simple-select'
             value={baseCurrency}
-            onChange={handleChangeBase}
+            onChange={event => setBaseCurrency(event.target.value)}
           >
             <MenuItem value="EUR">Euro</MenuItem>
             <MenuItem value="USD">Dollar</MenuItem>
@@ -100,7 +79,7 @@ export default function PriceEvolution (props) {
             labelId='demo-simple-select-label'
             id='demo-simple-select'
             value={wantedCurrency}
-            onChange={handleChangeWanted}
+            onChange={event => setWantedCurrency(event.target.value)}
           >
             <MenuItem value="EUR">Euro</MenuItem>
             <MenuItem value="USD">Dollar</MenuItem>
@@ -117,12 +96,12 @@ export default function PriceEvolution (props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map(row => (
-              <TableRow key={row.name}>
+            {Object.entries(evolution).map(([key, value]) => (
+              <TableRow key={key}>
                 <TableCell component='th' scope='row'>
-                  {row.month}
+                  {key}
                 </TableCell>
-                <TableCell align='right'>{row.price}</TableCell>
+                <TableCell align='right'>{value[wantedCurrency]}</TableCell>
               </TableRow>
             ))}
           </TableBody>

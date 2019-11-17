@@ -28,18 +28,6 @@ export default function Currency (props) {
   const [baseCurrency, setBaseCurrency] = React.useState('EUR')
   const [wantedCurrency, setWantedCurrency] = React.useState('USD')
 
-  const handleChangeBase = event => {
-    setBaseCurrency(event.target.value)
-  }
-
-  const handleChangeWanted = event => {
-    setWantedCurrency(event.target.value)
-  }
-
-  const handleChangeBaseAmount = event => {
-    setBaseAmount(event.target.value)
-  }
-
   React.useEffect(() => {
     ;(async () => {
       let result = await widget.fetchData({ convert: baseCurrency.concat('_', wantedCurrency) })
@@ -49,7 +37,7 @@ export default function Currency (props) {
       result = JSON.parse(result)[converted]
       setWantedAmount(baseAmount * result)
     })()
-  }, [])
+  }, [baseAmount, baseCurrency, wantedCurrency])
 
   return (
     <>
@@ -60,7 +48,7 @@ export default function Currency (props) {
           className={classes.textField}
           margin='normal'
           value={baseAmount}
-          onChange={handleChangeBaseAmount}
+          onChange={event => setBaseAmount(event.target.value)}
         />
         <FormControl className={classes.formControl}>
           <InputLabel id='demo-simple-select-label'>Currency</InputLabel>
@@ -68,7 +56,7 @@ export default function Currency (props) {
             labelId='demo-simple-select-label'
             id='demo-simple-select'
             value={baseCurrency}
-            onChange={handleChangeBase}
+            onChange={event => setBaseCurrency(event.target.value)}
           >
             <MenuItem value="EUR">Euro</MenuItem>
             <MenuItem value="USD">Dollar</MenuItem>
@@ -91,7 +79,7 @@ export default function Currency (props) {
             labelId='demo-simple-select-label'
             id='demo-simple-select'
             value={wantedCurrency}
-            onChange={handleChangeWanted}
+            onChange={event => setWantedCurrency(event.target.value)}
           >
             <MenuItem value="EUR">Euro</MenuItem>
             <MenuItem value="USD">Dollar</MenuItem>

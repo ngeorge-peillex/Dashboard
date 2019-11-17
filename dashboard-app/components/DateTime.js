@@ -28,10 +28,6 @@ export default function Deposits(props) {
   const [city, setCity] = React.useState("Paris")
   const [time, setTime] = React.useState("0")
 
-  const handleChangeCity = event => {
-    setCity(event.target.value);
-  }
-
   React.useEffect(() => {
     ; (async () => {
       let result = await widget.fetchData({ city: city })
@@ -59,7 +55,7 @@ export default function Deposits(props) {
             labelId='demo-simple-select-label'
             id='demo-simple-select'
             value={city}
-            onChange={handleChangeCity}
+            onChange={event => setCity(event.target.value)}
           >
             <MenuItem value="Paris">Paris</MenuItem>
             <MenuItem value="London">London</MenuItem>
