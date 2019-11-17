@@ -36,7 +36,6 @@ export default function Events (props) {
       if (!result || result == '') return
 
       result = JSON.parse(result)
-      console.log(result.items)
       setEvents(result.items)
     })()
   }, [])

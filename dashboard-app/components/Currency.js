@@ -49,7 +49,7 @@ export default function Currency (props) {
       result = JSON.parse(result)[converted]
       setWantedAmount(baseAmount * result)
     })()
-  }, [wantedCurrency, baseAmount, baseCurrency])
+  }, [])
 
   return (
     <>
