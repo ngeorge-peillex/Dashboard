@@ -84,15 +84,16 @@
       ]
     },
     {
-      "name": "Trello",
+      "name": "Google Calendar",
       "widgets": [
         {
-          "name": "Trello notifications",
-          "description": "Display the notifications on a board.",
+          "name": "Google calendar events",
+          "description": "Display the events since a specific date.",
+          "requestUrl": "https://www.googleapis.com/calendar/v3/calendars/{email}/events?timeMin={timeMin}&key={GOOGLE_CLIENT_ID}",
           "authRequired": true,
           "params": [
             {
-              "name": "board",
+              "name": "timeMin",
               "type": "string"
             }
           ]

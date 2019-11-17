@@ -30,6 +30,9 @@ const widgetArgs = (() => {
             } else if (param.type == 'string') {
               t.string(camelize(param.name))
             }
+            if (widget.authRequired) {
+              t.string('accessToken')
+            }
           }
         },
       })
@@ -43,6 +46,13 @@ export const fetchWidgetData = queryField('fetchWidgetData', {
   type: 'WidgetData',
   args: widgetArgs,
   resolve: async (parent, args, ctx) => {
+    const userId = getUserId(ctx)
+    const user = await ctx.photon.users.findOne({
+      where: {
+        id: userId,
+      },
+    })
+
     for (let [key, value] of Object.entries(args)) {
       if (!value) continue
 
@@ -57,10 +67,16 @@ export const fetchWidgetData = queryField('fetchWidgetData', {
 
       let requestUrl: string = format(widget.requestUrl, {
         ...value,
+        ...user,
         ...process.env,
       })
 
-      let res = await axios.get(requestUrl, { responseType: 'text' })
+      let res = await axios.get(requestUrl, {
+        ...(widget.authRequired
+          ? { headers: { Authorization: 'Bearer ' + value.accessToken } }
+          : {}),
+        responseType: 'text',
+      })
       if (res) {
         return { data: JSON.stringify(res.data) }
       }

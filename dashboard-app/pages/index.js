@@ -71,6 +71,7 @@ export default function SignIn () {
 
   const oAuthLoginFailure = async error => {
     if (error.error != 'popup_closed_by_user') {
+      console.log(error)
       alert('Sorry, something went wrong. Please try again.')
     }
   }
@@ -126,6 +127,7 @@ export default function SignIn () {
             <Grid item container justify='center'>
               <GoogleLogin
                 clientId='793712980515-ldaaa1jtnofj1huop8mhkqubfe9m47fc.apps.googleusercontent.com'
+                scope='profile email https://www.googleapis.com/auth/calendar'
                 buttonText='Login'
                 onSuccess={oAuthLoginSuccess}
                 onFailure={oAuthLoginFailure}

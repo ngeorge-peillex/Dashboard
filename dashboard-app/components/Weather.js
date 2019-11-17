@@ -2,7 +2,7 @@ import React from 'react'
 import Typography from '@material-ui/core/Typography'
 import Title from './Title'
 
-export default function Deposits () {
+export default function Weather (props) {
   const weather = 'sunny'
 
   return (

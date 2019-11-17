@@ -2,7 +2,7 @@ import React from 'react'
 import Typography from '@material-ui/core/Typography'
 import Title from './Title'
 
-export default function Deposits () {
+export default function DateTime (props) {
   const date = 'Thursday November 14, 2019'
   const time = '12:55'
 

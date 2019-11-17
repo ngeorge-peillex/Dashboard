@@ -56,7 +56,7 @@ export const signOut = () => {
   localStorage.removeItem('apiToken')
 }
 
-export const getCurrentUser = async () => {
+export const getCurrentUserId = async () => {
   const query = `
     query GetUserFromJwt {
       me {
@@ -79,9 +79,9 @@ export const getCurrentUser = async () => {
   }
 }
 
-export const oAuthSignIn = credentials => {
-  if (!signUp(credentials)) {
-    return signIn(credentials)
+export const oAuthSignIn = async credentials => {
+  if (!(await signIn(credentials))) {
+    return await signUp(credentials)
   } else {
     return true
   }

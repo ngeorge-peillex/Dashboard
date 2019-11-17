@@ -1,5 +1,6 @@
 import React from 'react'
 import Router from 'next/router'
+import GoogleLogin from 'react-google-login'
 
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
@@ -12,7 +13,7 @@ import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 
-import { oAuthSignIn } from '../services/user'
+import { signUp, oAuthSignIn } from '../services/user'
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -60,7 +61,6 @@ export default function SignUp () {
   }
 
   const oAuthLoginSuccess = async result => {
-    console.log(result)
     if ((await oAuthSignIn(result)) == true) {
       Router.push('/home')
     } else {
@@ -69,10 +69,7 @@ export default function SignUp () {
   }
 
   const oAuthLoginFailure = async error => {
-    if (
-      error.error != 'idpiframe_initialization_failed' &&
-      error.error != 'popup_closed_by_user'
-    ) {
+    if (error.error != 'popup_closed_by_user') {
       console.log(error)
       alert('Sorry, something went wrong. Please try again.')
     }
@@ -144,6 +141,7 @@ export default function SignUp () {
             <Grid item container justify='center'>
               <GoogleLogin
                 clientId='793712980515-ldaaa1jtnofj1huop8mhkqubfe9m47fc.apps.googleusercontent.com'
+                scope='profile email https://www.googleapis.com/auth/calendar'
                 buttonText='Login'
                 onSuccess={oAuthLoginSuccess}
                 onFailure={oAuthLoginFailure}

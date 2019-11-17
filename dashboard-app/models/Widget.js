@@ -14,11 +14,11 @@ export class Widget {
     this.service = args.service
     this.name = args.name
     this.description = args.description
-    this.requireAccessToken = args.requireAccessToken
+    this.authRequired = args.authRequired
     this.params = args.params
 
-    this.isVisible = this.requireAccessToken ? false : true
-    this.isConnected = this.requireAccessToken ? false : true
+    this.isVisible = this.authRequired ? false : true
+    this.isConnected = this.authRequired ? false : true
   }
 
   async update(params, fetch) {
@@ -35,8 +35,8 @@ export class Widget {
     this.isConnected = newData.isConnected
   }
 
-  async fetchData(params) {
-    this.data = await fetchWidgetData(this.name, params)
+  async fetchData(params, accessToken) {
+    this.data = await fetchWidgetData(this.name, params, accessToken)
     return this.data
   }
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import Typography from '@material-ui/core/Typography'
 import Title from './Title'
 
-export default function Deposits (props) {
+export default function Humidity (props) {
   const widget = props.widget
 
   // Retrieve humidity value

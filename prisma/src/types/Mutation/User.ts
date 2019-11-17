@@ -12,8 +12,8 @@ async function initWidgets(photon: any, userId: String) {
       await photon.widgets.create({
         data: {
           name: camelize(widget.name),
-          isConnected: widget.requireAccessToken ? false : true,
-          isVisible: widget.requireAccessToken ? false : true,
+          isConnected: widget.authRequired ? false : true,
+          isVisible: widget.authRequired ? false : true,
           owner: { connect: { id: userId } },
         },
       })
